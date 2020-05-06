@@ -139,7 +139,10 @@ start:
     mov lenght, ax
     mov bx, 30
     cmp bx, lenght
-    jl start             
+    jl start
+    mov bx, 0
+    cmp bx, lenght
+    je start             
     mov cx, lenght
     mov di, 0
     mov povtorenie2, 0
