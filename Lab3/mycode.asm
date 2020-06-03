@@ -40,8 +40,11 @@ cycle:
     sub ax,'0'
     push ax    
     mov ax, massiv[di]
+    jo error2
     mul bx
-    mov massiv[di], ax
+    jo error2
+    mov massiv[di], ax 
+    jo error2
     pop ax
     add massiv[di], ax
     jo error   
@@ -56,6 +59,17 @@ error:
     cmp ax, '-'
     je minus
 error1:
+    mov ah, 09h
+    lea dx, enter
+    int 21h
+    mov ah, 09h
+    lea dx, strError
+    int 21h
+    mov dx, 1
+    jmp endPerevod
+error2:
+    pop ax
+    pop ax
     mov ah, 09h
     lea dx, enter
     int 21h
@@ -81,9 +95,9 @@ go:
     xor ax, ax
     mov ax, massiv[si]
     repne scasw
-    je @step
-    jcxz my_ret 
-@step:
+    
+    jne my_ret 
+
     inc povtorenie1
     mov dl, povtorenie1
     jcxz my_ret 
